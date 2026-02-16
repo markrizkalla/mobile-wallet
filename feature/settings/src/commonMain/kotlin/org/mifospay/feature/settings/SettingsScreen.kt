@@ -29,17 +29,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import mobile_wallet.feature.settings.generated.resources.Res
-import mobile_wallet.feature.settings.generated.resources.feature_settings_change_passcode
-import mobile_wallet.feature.settings.generated.resources.feature_settings_change_password
-import mobile_wallet.feature.settings.generated.resources.feature_settings_disable_account
-import mobile_wallet.feature.settings.generated.resources.feature_settings_faq
-import mobile_wallet.feature.settings.generated.resources.feature_settings_log_out
 import mobile_wallet.feature.settings.generated.resources.feature_settings_settings
-import mobile_wallet.feature.settings.generated.resources.outline_logout
-import mobile_wallet.feature.settings.generated.resources.outline_password
-import mobile_wallet.feature.settings.generated.resources.outline_pin
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.resources.vectorResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 import org.mifospay.core.designsystem.component.BasicDialogState
@@ -110,54 +101,18 @@ private fun SettingsScreenContent(
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.sm),
         ) {
-//            SettingsCardItem(
-//                title = stringResource(Res.string.feature_settings_notification_settings),
-//                icon = MifosIcons.OutlinedNotifications,
-//                onClick = {
-//                    onAction(SettingsAction.NavigateToNotificationSettings)
-//                },
-//            )
-
-            SettingsCardItem(
-                title = stringResource(Res.string.feature_settings_faq),
-                icon = MifosIcons.OutlinedInfo,
-                onClick = {
-                    onAction(SettingsAction.NavigateToFaqScreen)
-                },
-            )
-
-            SettingsCardItem(
-                title = stringResource(Res.string.feature_settings_change_password),
-                icon = vectorResource(Res.drawable.outline_password),
-                onClick = {
-                    onAction(SettingsAction.ChangePassword)
-                },
-            )
-
-            SettingsCardItem(
-                title = stringResource(Res.string.feature_settings_change_passcode),
-                icon = vectorResource(Res.drawable.outline_pin),
-                onClick = {
-                    onAction(SettingsAction.ChangePasscode)
-                },
-            )
-
-            SettingsCardItem(
-                title = stringResource(Res.string.feature_settings_log_out),
-                icon = vectorResource(Res.drawable.outline_logout),
-                onClick = {
-                    onAction(SettingsAction.Logout)
-                },
-            )
-
-            SettingsCardItem(
-                title = stringResource(Res.string.feature_settings_disable_account),
-                icon = MifosIcons.OutlinedLock,
-                color = KptTheme.colorScheme.error,
-                onClick = {
-                    onAction(SettingsAction.DisableAccount)
-                },
-            )
+            settingsItems.forEach { item ->
+                SettingsCardItem(
+                    title = stringResource(item.title),
+                    icon = item.icon.resolve(),
+                    color = if (item.isDestructive) {
+                        KptTheme.colorScheme.error
+                    } else {
+                        KptTheme.colorScheme.onSurface
+                    },
+                    onClick = { onAction(item.action) },
+                )
+            }
         }
     }
 }
