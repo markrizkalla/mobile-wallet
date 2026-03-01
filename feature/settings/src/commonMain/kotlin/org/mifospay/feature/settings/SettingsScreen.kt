@@ -29,6 +29,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import mobile_wallet.feature.settings.generated.resources.Res
+import mobile_wallet.feature.settings.generated.resources.feature_settings_change_passcode
+import mobile_wallet.feature.settings.generated.resources.feature_settings_change_password
+import mobile_wallet.feature.settings.generated.resources.feature_settings_disable_account
+import mobile_wallet.feature.settings.generated.resources.feature_settings_faq
+import mobile_wallet.feature.settings.generated.resources.feature_settings_log_out
+import mobile_wallet.feature.settings.generated.resources.feature_settings_profile
 import mobile_wallet.feature.settings.generated.resources.feature_settings_settings
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -50,6 +56,7 @@ internal fun SettingsScreenRoute(
     onChangePasscode: () -> Unit,
     navigateToFaqScreen: () -> Unit,
     navigateToNotificationScreen: () -> Unit,
+    navigateToProfile: () -> Unit,
     modifier: Modifier = Modifier,
     viewmodel: SettingsViewModel = koinViewModel(),
 ) {
@@ -62,6 +69,7 @@ internal fun SettingsScreenRoute(
             SettingsEvent.OnNavigateToEditPasswordScreen -> onEditPassword.invoke()
             SettingsEvent.OnNavigateToFaqScreen -> navigateToFaqScreen.invoke()
             SettingsEvent.OnNavigateToLogout -> onLogout.invoke()
+            SettingsEvent.OnNavigateToProfile -> navigateToProfile.invoke()
             SettingsEvent.OnNavigateToNotificationScreen -> navigateToNotificationScreen.invoke()
         }
     }
@@ -113,6 +121,62 @@ private fun SettingsScreenContent(
                     onClick = { onAction(item.action) },
                 )
             }
+//            SettingsCardItem(
+//                title = stringResource(Res.string.feature_settings_notification_settings),
+//                icon = MifosIcons.OutlinedNotifications,
+//                onClick = {
+//                    onAction(SettingsAction.NavigateToNotificationSettings)
+//                },
+//            )
+
+            SettingsCardItem(
+                title = stringResource(Res.string.feature_settings_faq),
+                icon = MifosIcons.OutlinedInfo,
+                onClick = {
+                    onAction(SettingsAction.NavigateToFaqScreen)
+                },
+            )
+
+            SettingsCardItem(
+                title = stringResource(Res.string.feature_settings_profile),
+                icon = MifosIcons.Profile,
+                onClick = {
+                    onAction(SettingsAction.NavigateToProfile)
+                },
+            )
+
+            SettingsCardItem(
+                title = stringResource(Res.string.feature_settings_change_password),
+                icon = vectorResource(Res.drawable.outline_password),
+                onClick = {
+                    onAction(SettingsAction.ChangePassword)
+                },
+            )
+
+            SettingsCardItem(
+                title = stringResource(Res.string.feature_settings_change_passcode),
+                icon = vectorResource(Res.drawable.outline_pin),
+                onClick = {
+                    onAction(SettingsAction.ChangePasscode)
+                },
+            )
+
+            SettingsCardItem(
+                title = stringResource(Res.string.feature_settings_log_out),
+                icon = vectorResource(Res.drawable.outline_logout),
+                onClick = {
+                    onAction(SettingsAction.Logout)
+                },
+            )
+
+            SettingsCardItem(
+                title = stringResource(Res.string.feature_settings_disable_account),
+                icon = MifosIcons.OutlinedLock,
+                color = KptTheme.colorScheme.error,
+                onClick = {
+                    onAction(SettingsAction.DisableAccount)
+                },
+            )
         }
     }
 }
