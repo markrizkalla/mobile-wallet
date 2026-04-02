@@ -36,11 +36,7 @@ import mobile_wallet.feature.settings.generated.resources.feature_settings_faq
 import mobile_wallet.feature.settings.generated.resources.feature_settings_log_out
 import mobile_wallet.feature.settings.generated.resources.feature_settings_profile
 import mobile_wallet.feature.settings.generated.resources.feature_settings_settings
-import mobile_wallet.feature.settings.generated.resources.outline_logout
-import mobile_wallet.feature.settings.generated.resources.outline_password
-import mobile_wallet.feature.settings.generated.resources.outline_pin
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.resources.vectorResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 import org.mifospay.core.designsystem.component.BasicDialogState
@@ -113,6 +109,18 @@ private fun SettingsScreenContent(
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.sm),
         ) {
+            settingsItems.forEach { item ->
+                SettingsCardItem(
+                    title = stringResource(item.title),
+                    icon = item.icon.resolve(),
+                    color = if (item.isDestructive) {
+                        KptTheme.colorScheme.error
+                    } else {
+                        KptTheme.colorScheme.onSurface
+                    },
+                    onClick = { onAction(item.action) },
+                )
+            }
 //            SettingsCardItem(
 //                title = stringResource(Res.string.feature_settings_notification_settings),
 //                icon = MifosIcons.OutlinedNotifications,
